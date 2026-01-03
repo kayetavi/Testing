@@ -1,0 +1,50 @@
+/* Background ONLY inside Pipe Thickness Tab */
+#pipeThicknessTab {
+    font-family: "Poppins", sans-serif;
+
+    background: url('https://images.pexels.com/photos/2381463/pexels-photo-2381463.jpeg?auto=compress&cs=tinysrgb&w=1600')
+                no-repeat center/cover;
+
+    padding: 40px;
+    min-height: 100vh;
+}
+
+/* Glass box ONLY inside this tab */
+#pipeThicknessTab .box883 {
+    width: 420px;
+    padding: 25px;
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    margin-top: 20px;
+}
+
+/* Header text ONLY here */
+#pipeThicknessTab h2 {
+    color: white;
+    text-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+/* Dropdowns ONLY inside this tab */
+#pipeThicknessTab select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,0.6);
+    font-size: 16px;
+    outline: none;
+}
+
+/* Thickness result text ONLY inside this tab */
+#pipeThicknessTab #result_thickness_883 {
+    margin-top: 25px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    opacity: 0.9;
+}

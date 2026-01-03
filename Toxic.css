@@ -1,0 +1,78 @@
+/* âœ… Toxic % Strict Calculator - Full Width Responsive */
+#TOXIC_CALCULATIONTab {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#TOXIC_CALCULATIONTab #toxicCalculator {
+  width: 100%;
+  max-width: 100%; /* Full width on larger screens */
+  padding: 20px;
+  border: 2px solid #4CAF50;
+  border-radius: 10px;
+  background: #f9f9f9;
+  box-sizing: border-box;
+}
+
+#TOXIC_CALCULATIONTab #toxicCalculator h2 {
+  text-align: center;
+  color: #4CAF50;
+  margin-bottom: 15px;
+}
+
+#TOXIC_CALCULATIONTab #toxicCalculator label {
+  display: block;
+  margin: 6px 0 2px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#TOXIC_CALCULATIONTab #toxicCalculator select,
+#TOXIC_CALCULATIONTab #toxicCalculator input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+#TOXIC_CALCULATIONTab #toxicCalculator button {
+  width: 100%;
+  padding: 12px;
+  background: #4CAF50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+#TOXIC_CALCULATIONTab #toxicCalculator button:hover {
+  background: #45a049;
+}
+
+#TOXIC_CALCULATIONTab #toxicCalculator .result {
+  margin-top: 15px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+/* âœ… Mobile Friendly */
+@media screen and (max-width: 768px) {
+  #TOXIC_CALCULATIONTab #toxicCalculator {
+    padding: 15px;
+    border-radius: 8px;
+  }
+  #TOXIC_CALCULATIONTab #toxicCalculator button {
+    font-size: 15px;
+    padding: 10px;
+  }
+}

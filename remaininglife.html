@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>API 570 Corrosion Estimator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="remaininglife.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>📘 API 570 Corrosion Rate & Remaining Life Estimator</h2>
+
+    <label for="calcType">Select Calculation Type:</label>
+    <select id="calcType" onchange="showSection()">
+      <option value="">-- Select --</option>
+      <option value="short">Short-Term CR</option>
+      <option value="long">Long-Term CR</option>
+    </select>
+
+    <!-- ✅ Short-Term Corrosion Rate -->
+    <div id="shortCRSection" class="section">
+      <h3>📌 Short-Term Corrosion Rate (CR<sub>ST</sub>)</h3>
+      <input type="number" id="prevThk" placeholder="t_previous (mm)" />
+      <div class="description-box">t_previous: Thickness at previous inspection (mm)</div>
+
+      <input type="number" id="recentThk" placeholder="t_actual (mm)" />
+      <div class="description-box">t_actual: Current thickness (mm)</div>
+
+      <label for="prevDate">Previous Inspection Date:</label>
+      <input type="date" id="prevDate" />
+
+      <label for="recentDate">Recent Inspection Date:</label>
+      <input type="date" id="recentDate" />
+
+      <button onclick="calcShortCR()">📈 Calculate</button>
+      <p class="result" id="shortCRResult"></p>
+    </div>
+
+    <!-- ✅ Long-Term Corrosion Rate -->
+    <div id="longCRSection" class="section">
+      <h3>📌 Long-Term Corrosion Rate (CR<sub>LT</sub>)</h3>
+      <input type="number" id="origThk" placeholder="t_initial (mm)" />
+      <div class="description-box">t_initial: Original thickness (mm)</div>
+
+      <input type="number" id="currThk" placeholder="t_actual (mm)" />
+      <div class="description-box">t_actual: Current thickness (mm)</div>
+
+      <input type="number" id="equipAge" placeholder="Age (years)" />
+      <div class="description-box">Operating age in years</div>
+
+      <button onclick="calcLongCR()">📈 Calculate</button>
+      <p class="result" id="longCRResult"></p>
+    </div>
+
+    <!-- ✅ Remaining Life -->
+    <div id="remainingSection" class="section">
+      <h3>📌 Remaining Life</h3>
+      <input type="number" id="rlThk" placeholder="t_actual (mm)" />
+      <div class="description-box">Auto-filled from CR result</div>
+
+      <input type="number" id="tmin" placeholder="t_required (mm)" />
+      <div class="description-box">Minimum required thickness (t<sub>min</sub>)</div>
+
+      <input type="hidden" id="crSource" />
+      <button onclick="calcRemainingLife()">📊 Calculate Remaining Life</button>
+      <p class="result" id="rlResult"></p>
+      <p class="note">Remaining Life = (t_actual − t_required) / CR<br>📖 Ref: API 570 §7.2</p>
+    </div>
+
+    <!-- ✅ Thickness vs Time Chart -->
+    <canvas id="thkChart" height="300"></canvas>
+  </div>
+
+  <script src="remaininglife.js"></script>
+</body>
+</html>

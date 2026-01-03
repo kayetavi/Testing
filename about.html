@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About - Damage Mechanism Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Basic reset */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .page-container {
+      width: 95%;
+      max-width: 1400px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #0077b6;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #023e8a;
+      margin-top: 25px;
+      border-left: 5px solid #0096c7;
+      padding-left: 10px;
+    }
+
+    p { line-height: 1.7; font-size: 1rem; }
+
+    /* ===== Purpose (feature-list) styling - checkmark cards ===== */
+    .feature-list,
+    .key-features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 10px 0;
+    }
+
+    /* Use grid for the key-features container so items never split */
+    .key-features-grid {
+      display: grid;
+      grid-template-columns: 1fr; /* mobile: single column */
+      gap: 18px;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* desktop: two equal columns */
+    @media (min-width: 1024px) {
+      .key-features-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* Each card (li) inside grid is a full grid item and won't split */
+    .key-features-grid > li,
+    .feature-list > li {
+      background: #e6f0ff;
+      margin: 0;                /* grid gap handles spacing */
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 1rem;
+      display: block;          /* block inside grid cell */
+      position: relative;
+      min-height: 44px;
+    }
+
+    /* Left checkmark marker */
+    .key-features-grid > li::before,
+    .feature-list > li::before {
+      content: "✔";
+      color: #0077b6;
+      font-weight: bold;
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      line-height: 1;
+    }
+
+    /* Add padding-left so text doesn't overlap check */
+    .key-features-grid > li > *,
+    .feature-list > li > * {
+      margin-left: 28px;
+    }
+
+    /* Sub-list inside a feature card (grid-based columns inside card) */
+    .card-sublist {
+      list-style: none;
+      padding-left: 0;
+      margin: 8px 0 0 0;
+      display: grid;
+      grid-template-columns: 1fr; /* mobile 1 col */
+      gap: 6px 16px;
+    }
+    .card-sublist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 0;
+      background: transparent;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+    .card-sublist li::before {
+      content: "•";
+      color: #023e8a;
+      font-weight: bold;
+      margin-right: 6px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    @media (min-width: 1024px) {
+      .card-sublist { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* API standards normal bullets */
+    .standard-list { list-style: disc; padding-left: 22px; margin-top: 10px; }
+    .standard-list li { margin: 6px 0; }
+
+    .developer-box {
+      background: #f8f9fa;
+      padding: 15px;
+      border-left: 5px solid #48cae4;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+
+    a.back-link {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #fff;
+      background: #0077b6;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+    a.back-link:hover { background: #023e8a; }
+
+    /* Mobile tweaks */
+    @media (max-width: 768px) {
+      .key-features-grid > li,
+      .feature-list > li { font-size: 1.03rem; padding: 14px; }
+      a.back-link {
+        display: block; width: 100%; text-align: center;
+        padding: 12px; font-size: 1rem; margin-top: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <h1>About This Dashboard</h1>
+    <p>
+      The <strong>Damage Mechanism Dashboard</strong> is a specialized web-based tool for
+      professionals in <strong>oil & gas, refinery, petrochemical,</strong> and <strong>chemical industries</strong>.
+      It is based on</strong> standards and helps in identifying, evaluating, and understanding
+      various damage mechanisms affecting fixed equipment, Damage Mechanism Corrosion Rate, Corrosion Diagram,Inventory.
+    </p>
+
+    <h2>🎯 Purpose</h2>
+    <p>The primary goal of this dashboard is to assist:</p>
+    <ul class="feature-list">
+      <li><strong>Inspection & RBI Professionals</strong> – Plan risk-based inspections effectively</li>
+      <li><strong>Corrosion & Materials Engineers</strong> – Analyze damage mechanisms & corrosion rates</li>
+      <li><strong>Maintenance Planners</strong> – Schedule proactive maintenance activities</li>
+      <li><strong>Process Safety Engineers</strong> – Evaluate failure risks & process safety concerns</li>
+      <li><strong>Reliability Engineers</strong> – Improve equipment reliability & life cycle management</li>
+    </ul>
+
+    <h2>🔍 Key Features</h2>
+
+    <!-- Use grid container (no CSS columns) so items do not split -->
+    <ul class="key-features-grid">
+      <li>
+        <div>
+          Browse categories & detailed damage mechanisms, including:
+          <ul class="card-sublist">
+            <li>Oxidation</li>
+            <li>Sulfidation</li>
+            <li>High-Temperature Hydrogen Attack (HTHA)</li>
+          </ul>
+        </div>
+      </li>
+
+      <li>
+        <div>Filter mechanisms by keywords or categories</div>
+      </li>
+
+      <li>
+        <div>
+          Evaluate mechanisms based on RBI(Risk Based Inspection)-style parameters:
+          <ul class="card-sublist">
+            <li>Criteria for identifying damage mechanisms</li>
+            <li>Damage Mechanism – Corrosion Rate Estimator</li>
+            <li>Representative Fluid selection</li>
+            <li>Inventory Calculator</li>
+            <li>Inspection Confidence assessment</li>
+            <li>Toxic percentage (%) calculation</li>
+          </ul>
+        </div>
+      </li>
+
+      <li><div>Corrosion diagrams indicator linked to each damage mechanism</div></li>
+      <li><div>Short-term, long-term & historical corrosion rate evaluation</div></li>
+      <li><div>Remaining life & retirement thickness calculation</div></li>
+      <li><div>Design Thickness Calculation for Process Piping</div></li>
+      <li><div>Design Calculation for pressure vessels</div></li>
+      <li><div>Estimate corrosion rates & Remaining Life</div></li>
+      <li><div>Initial potential Finder</div></li>
+    </ul>
+
+    <h2>👨‍💻 Developers</h2>
+    <div class="developer-box">
+      <p>
+        <strong>Avijit Kayet</strong><br>
+        Specialist in Asset Performance Management (APM) Integrity, focusing on risk-based inspection (RBI),
+        damage mechanism evaluation, and the implementation of standards.
+       </p>
+    </div>
+    <div class="developer-box">
+      <p>
+        <strong>Viswa Manoj</strong><br>
+        Risk-Based Inspection Engineer who contributed core conceptual ideas and valuable suggestions during the development of this dashboard.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

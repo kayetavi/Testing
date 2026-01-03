@@ -1,0 +1,214 @@
+// ✅ Append message to chat log
+function appendToChatLog(sender, message, isHTML = false, isUser = false) {
+  const chatLog = document.getElementById("chat-log");
+  const msgDiv = document.createElement("div");
+  msgDiv.classList.add("chat-message", isUser ? "user-message" : "bot-message");
+
+  msgDiv.innerHTML = isHTML
+    ? `<strong>${sender}:</strong><br>${message}`
+    : `<strong>${sender}:</strong> ${message}`;
+
+  chatLog.appendChild(msgDiv);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+// ✅ Toggle chatbot open/close
+function toggleChat() {
+  const chatBox = document.getElementById("chat-box");
+  if (chatBox) {
+    chatBox.classList.toggle("hidden");
+  }
+}
+
+// ✅ Main user message handler
+function handleChat(e) {
+  if (e.key === "Enter") {
+    const input = document.getElementById("chat-input");
+    const message = input.value.trim();
+    if (!message) return;
+
+    appendToChatLog("🧑", message, false, true);
+    respondToUser(message);
+    input.value = "";
+
+    const suggestionBox = document.getElementById("suggestions");
+    if (suggestionBox) {
+      suggestionBox.innerHTML = "";
+      suggestionBox.style.display = "none";
+    }
+  }
+}
+
+// ✅ Fetch from Google Programmable Search API
+async function fetchGoogleSearch(query) {
+  const apiKey = "AIzaSyAMALijTtjygXpYdhntniHZpgeC0g7AqtE"; // 🔑 Replace this
+  const cx = "c49882215fd6c4930"; // 🔑 Replace this
+
+  const url = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${apiKey}&cx=${cx}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data.items || data.items.length === 0) {
+      return "❌ No Google results found.";
+    }
+
+    const resultsHtml = data.items.slice(0, 3).map(item => `
+      <b><a href="${item.link}" target="_blank">${item.title}</a></b><br>
+      ${item.snippet}
+    `).join("<br><br>");
+
+    return `🔍 <b>Google Search Results:</b><br><br>${resultsHtml}`;
+  } catch (err) {
+    console.error(err);
+    return "❌ Failed to fetch Google results.";
+  }
+}
+
+// ✅ Respond logic
+function respondToUser(message) {
+  const msg = message.toLowerCase().trim();
+  const mechanisms = Object.keys(data["API 571 Damage Mechanism"]);
+  let matchedKey = null;
+
+  // Greetings & Info
+  if (["hello", "hi", "hey"].some(greet => msg.includes(greet))) {
+    appendToChatLog("🤖", "Hello! 👋 How can I assist you with API 571 damage mechanisms today?", true);
+    return;
+  }
+  if (msg.includes("who are you")) {
+    appendToChatLog("🤖", "I'm your API 571 Assistant 🤖. I can help you learn about damage mechanisms like HIC, SCC, etc.", true);
+    return;
+  }
+  if (msg.includes("help")) {
+    appendToChatLog("🤖", "You can ask me about any damage mechanism (e.g., 'Tell me about HIC') or specific details like 'SSC inspection'.", true);
+    return;
+  }
+
+  // Match mechanism
+  for (const key of mechanisms) {
+    if (msg.includes(key.toLowerCase())) {
+      matchedKey = key;
+      break;
+    }
+  }
+
+  // Typing animation
+  const chatLog = document.getElementById("chat-log");
+  const typingDiv = document.createElement("div");
+  typingDiv.classList.add("chat-message", "bot-message");
+  typingDiv.innerHTML = `<em class="typing">🤖 is typing...</em>`;
+  chatLog.appendChild(typingDiv);
+  chatLog.scrollTop = chatLog.scrollHeight;
+
+  // Reply after delay
+  setTimeout(async () => {
+    typingDiv.remove();
+    let response = "";
+
+    if (matchedKey) {
+      if (
+        msg.includes("description") ||
+        msg.includes("critical") ||
+        msg.includes("appearance") ||
+        msg.includes("material") ||
+        msg.includes("unit") ||
+        msg.includes("inspection") ||
+        msg.includes("mitigation") ||
+        msg.includes("image")
+      ) {
+        response = getMechanismDetail(matchedKey, msg);
+      } else {
+        response = generateTabs(matchedKey);
+      }
+    } else {
+      // 🔍 Fallback to Google search
+      response = await fetchGoogleSearch(msg);
+    }
+
+    appendToChatLog("🤖", response, true);
+  }, 700);
+}
+
+// ✅ Get specific detail from mechanism
+function getMechanismDetail(key, msg) {
+  const mech = data["API 571 Damage Mechanism"][key];
+
+  if (msg.includes("description")) return `<b>Description:</b><br>${mech.description}`;
+  if (msg.includes("critical")) return `<b>Critical Factors:</b><br>${mech.criticalFactors}`;
+  if (msg.includes("appearance")) return `<b>Appearance:</b><br>${mech.appearance}`;
+  if (msg.includes("material")) return `<b>Affected Materials:</b><br>${mech.affectedMaterials}`;
+  if (msg.includes("unit")) return `<b>Affected Units:</b><br>${mech.affectedUnits}`;
+  if (msg.includes("inspection")) return `<b>Inspection:</b><br>${mech.inspection}`;
+  if (msg.includes("mitigation")) return `<b>Mitigation:</b><br>${mech.mitigation}`;
+  if (msg.includes("image")) return `<img src="${mech.imagePath}" alt="${key}" style="max-width:100%;">`;
+
+  return "❌ No matching detail found.";
+}
+
+// ✅ Generate clickable tabs
+function generateTabs(key) {
+  const tabs = [
+    "description",
+    "critical factors",
+    "appearance",
+    "materials",
+    "units",
+    "inspection",
+    "mitigation",
+    "image",
+  ];
+
+  const tabHtml = tabs
+    .map(tab => `<button class="tab-button" onclick="handleTabClick('${key}', '${tab}')">${tab}</button>`)
+    .join(" ");
+
+  return `✅ I found data on <b>${key}</b>.<br>Click below:<br>${tabHtml}`;
+}
+
+// ✅ Handle tab click as if typed
+function handleTabClick(key, tab) {
+  const fakeMessage = `${key} ${tab}`;
+  respondToUser(fakeMessage);
+}
+
+// ✅ Suggestion dropdown with better matching
+function updateSuggestions() {
+  const input = document.getElementById("chat-input");
+  const inputVal = input.value.trim().toLowerCase();
+  const suggestionBox = document.getElementById("suggestions");
+
+  const allMechanisms = Object.keys(data["API 571 Damage Mechanism"] || {});
+
+  const matched = allMechanisms.filter(item =>
+    item.toLowerCase().includes(inputVal)
+  );
+
+  if (!inputVal || inputVal.length < 2 || matched.length === 0) {
+    suggestionBox.style.display = "none";
+    return;
+  }
+
+  suggestionBox.innerHTML = "";
+
+  matched.forEach(match => {
+    const div = document.createElement("div");
+    div.classList.add("suggestion-item");
+
+    const regex = new RegExp(`(${inputVal})`, "gi");
+    div.innerHTML = match.replace(regex, "<strong>$1</strong>");
+
+    div.onclick = () => {
+      input.value = match;
+      suggestionBox.innerHTML = "";
+      suggestionBox.style.display = "none";
+      appendToChatLog("🧑", match, false, true);
+      respondToUser(match);
+    };
+
+    suggestionBox.appendChild(div);
+  });
+
+  suggestionBox.style.display = "block";
+}

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Help & User Guide</title>
+  <link rel="stylesheet" href="rbi-help.css" />
+</head>
+<body class="rbi-body">
+  <div class="rbi-container">
+    <h1 class="scroll-target">❓ Help & User Guide</h1>
+
+    <!-- 🔍 Search UI -->
+    <div class="rbi-search" role="search">
+      <input
+        type="text"
+        id="searchBox"
+        placeholder="🔍 Search in Help Guide... (e.g., corrosion, inventory)"
+        aria-label="Search help guide"
+      />
+    </div>
+    <div style="display:flex; align-items:center; gap:12px; justify-content:center; margin:-6px 0 8px;">
+      <label style="display:flex; align-items:center; gap:6px; font-size:14px;">
+        <input type="checkbox" id="filterToggle" />
+        Show only matching sections
+      </label>
+      <span id="resultCount" style="font-size:14px; color:#0d6efd;">0 matches</span>
+      <button id="clearBtn" type="button" style="border:1px solid #cfe2ff; background:#fff; padding:6px 10px; border-radius:8px; font-size:13px; cursor:pointer;">Clear</button>
+    </div>
+
+    <p>
+      Welcome to the <b>API 571 / 581 Dashboard</b> Help Section.
+      This guide explains in detail how to navigate the dashboard, use each module, enter correct inputs, and interpret the results.
+      The dashboard is designed for engineers, inspectors, and RBI (Risk-Based Inspection) professionals to evaluate damage mechanisms, calculate corrosion rates, estimate remaining life, and assess the risk of equipment failure.
+    </p>
+    
+    
+     <!-- 🔹 Features Overview -->
+    <div class="rbi-section">
+      <h2>🖥️ Dashboard Features Overview</h2>
+      <ul>
+        <li><b>Damage Mechanisms:</b> Explore 60+ mechanisms with material/environment conditions.</li>
+        <li><b>Corrosion Rate:</b> Full API 581 logic with graphs and trending analysis.</li>
+        <li><b>Fluid Data:</b> Built-in fluid property and toxicity database.</li>
+        <li><b>Inventory:</b> Leak rate and release mass calculator with multiple hole sizes.</li>
+        <li><b>Remaining Life:</b> Estimate RL and inspection planning.</li>
+        <li><b>Design Thickness:</b> Piping & vessel thickness calculations as per ASME codes.</li>
+        <li><b>Toxic Release:</b> Estimate toxic release impact zones.</li>
+        <li><b>Find Mechanism Tool:</b> Smart tool to identify likely degradation mechanisms.</li>
+      </ul>
+    </div>
+
+    <!-- 🔹 Navigation -->
+    <div class="rbi-section">
+      <h2>📌 Navigation & Layout</h2>
+      <ul>
+        <li>The <b>left sidebar</b> provides access to different modules such as Damage Mechanisms, Corrosion Rate, Inventory, Fluid Data, and Remaining Life.</li>
+        <li>Each module opens with an interactive <b>form</b> for data entry and <b>graphs/tables</b> for result visualization.</li>
+        <li>The <b>top header</b> contains the Welcome Banner, current user info, and the <b>Logout</b> button.</li>
+        <li>Results update automatically once you click <b>Calculate</b> in any module.</li>
+      </ul>
+    </div>
+
+    <!-- 🔹 API 571 -->
+    <div class="rbi-section">
+      <h2>🔹 API 571: Damage Mechanism Explorer</h2>
+      <ul>
+        <li>Contains descriptions of <b>60+ damage mechanisms</b> as per API 571.</li>
+        <li>Each mechanism includes:
+          <ul>
+            <li>Definition and description</li>
+            <li>Typical affected materials</li>
+            <li>Critical operating/environmental conditions</li>
+            <li>Inspection methods and mitigation strategies</li>
+          </ul>
+        </li>
+        <li><b>Find Mechanism Tool:</b> If you are unsure which mechanism applies, enter process conditions (temperature, pressure, environment, material). The tool will suggest likely damage mechanisms.</li>
+        <li><b>Use Case:</b> If carbon steel piping operates in wet H₂S service, the tool may suggest "Sulfidation" and "Acidic Sour Water Corrosion".</li>
+      </ul>
+    </div>
+
+    <!-- 🔹 API 581 -->
+    <div class="rbi-section">
+      <h2>🔹 API 581: Corrosion Rate Calculator</h2>
+      <ul>
+        <li>Calculates corrosion rates based on API 581 methodologies.</li>
+        <li>Currently supported mechanisms:
+          <b>CUI</b>, <b>CO₂ Corrosion</b>, <b>Sulfidation</b>, <b>Acid Sour Water</b>, <b>Oxidation</b>, etc.</li>
+        <li><b>How to Use:</b>
+          <ol>
+            <li>Select the mechanism from the dropdown.</li>
+            <li>Enter required process inputs (temperature, pressure, pH, chloride presence, etc.).</li>
+            <li>Click <b>Calculate</b> to generate results.</li>
+          </ol>
+        </li>
+        <li><b>Outputs:</b>
+          <ul>
+            <li>Base Corrosion Rate (mm/y)</li>
+            <li>Adjusted Corrosion Rate (after considering inhibitors/glycol)</li>
+            <li>Trend Graph of corrosion over time</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 🔹 Fluid Data -->
+    <div class="rbi-section">
+      <h2>🔹 Representative Fluid Data</h2>
+      <ul>
+        <li>Provides a built-in library of common process fluids used in API 581 COF calculations.</li>
+        <li>Each fluid entry includes:
+          <ul>
+            <li>Risk Category (flammable, toxic, environmental impact)</li>
+            <li>Release factors and dispersion coefficients</li>
+            <li>Physical properties such as molecular weight, boiling point, and toxicity index</li>
+          </ul>
+        </li>
+        <li><b>Usage:</b> Select the fluid from the dropdown when performing a <b>Consequence of Failure (COF)</b> assessment.</li>
+      </ul>
+    </div>
+
+    <!-- 🔹 Inventory -->
+    <div class="rbi-section">
+      <h2>🔹 Inventory Calculator</h2>
+      <ul>
+        <li>Estimates <b>volume</b>, <b>liquid inventory mass</b>, and <b>vapor inventory mass</b> based on equipment geometry and fluid properties.</li>
+
+        <li><b>Formulas:</b>
+          <ul>
+            <li><b>Manual Volume Entry:</b> <code>V = Input Volume × Unit Conversion Factor</code> (e.g., 1 ft³ = 0.0283168 m³)</li>
+
+            <li><b>Cylinder Volume:</b> <code>V_cylinder = π × (D/2)² × L</code>
+                <code>V_total = V_cylinder + Head Volume</code>
+                Head Volume by type:
+                <ul>
+                  <li>Hemispherical: <code>V_head = 2/3 × π × (D/2)³</code></li>
+                  <li>Torispherical: <code>V_head = 0.9 × π × (D/2)² × (D/4)</code></li>
+                  <li>Ellipsoidal: <code>V_head = π/24 × D³</code></li>
+                </ul>
+            </li>
+
+            <li><b>Sphere Volume:</b> <code>V_sphere = 4/3 × π × (D/2)³</code></li>
+
+            <li><b>Liquid Inventory Mass:</b> <code>Liquid Mass = Volume × Liquid Fraction × Density</code></li>
+
+            <li><b>Vapor Inventory Mass:</b> <code>Vapor Mass = Flow Rate × Duration Conversion</code>
+                Conversion Example:
+                <ul>
+                  <li>kg/min → kg/sec: flow ÷ 60</li>
+                  <li>kg/h → kg/sec: flow ÷ 3600</li>
+                </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li>Required Inputs:
+          <ul>
+            <li>Equipment Shape (Cylinder / Sphere)</li>
+            <li>Phase: Liquid, Vapor, or Both</li>
+            <li>Dimensions (Diameter, Length) with units</li>
+            <li>Manual Volume Override (optional)</li>
+            <li>Equipment Type (for default liquid %)</li>
+            <li>Fluid Density</li>
+            <li>Flow Rate and Unit (for vapor)</li>
+          </ul>
+        </li>
+
+        <li><b>Outputs:</b> Volume (m³), Liquid Mass (kg), Vapor Mass (kg), and total estimated inventory.</li>
+      </ul>
+    </div>
+
+    <!-- 🔹 API 570 -->
+    <div class="rbi-section">
+      <h2>🔹 API 570: Remaining Life Estimator</h2>
+      <ul>
+        <li>Calculates <b>Remaining Life (RL)</b> and <b>Next Inspection Interval</b>.</li>
+        <li>Inputs Required:
+          <ul>
+            <li>Current measured thickness</li>
+            <li>Minimum required thickness</li>
+            <li>Short-term or long-term corrosion rate</li>
+          </ul>
+        </li>
+        <li><b>Formula:</b> RL = (t_actual - t_min) / CR</li>
+        <li><b>Inspection Interval:</b> Minimum of (RL / 2) or 10 years, whichever is smaller.</li>
+        <li><b>Use Case:</b> If pipe thickness = 12 mm, minimum required = 8 mm, CR = 0.2 mm/y → RL = 20 years, Inspection Interval = 10 years.</li>
+      </ul>
+    </div>
+
+    <!-- 🔹 Design Formulas -->
+    <div class="rbi-section">
+      <h2>📐 Design Thickness Calculations</h2>
+      <ul>
+        <li><b>ASME B31.3 Pipe Formula:</b>  
+          <br><code>t = (P × D) / (2 × (S × E + P × Y)) + C</code>  
+          Where:  
+          <ul>
+            <li>P = Design Pressure</li>
+            <li>D = Outside Diameter</li>
+            <li>S = Allowable Stress</li>
+            <li>E = Weld Efficiency</li>
+            <li>Y = Code Coefficient</li>
+            <li>C = Corrosion Allowance</li>
+          </ul>
+        </li>
+
+        <li><b>ASME Section VIII Div 1 (Cylindrical Shell - UG-27(c)(1)):</b>  
+          <br><code>t = (P × R) / (S × E - 0.6 × P)</code>  
+          Where:  
+          <ul>
+            <li>P = Design Pressure</li>
+            <li>R = Inside Radius of the shell</li>
+            <li>S = Allowable Stress of the material</li>
+            <li>E = Weld Efficiency</li>
+          </ul>
+        </li>
+
+        <li><b>Ellipsoidal Head (UG-32(c)):</b>  
+          <br><code>t = (P × D) / (2 × S × E - 0.2 × P)</code>  
+          Where:  
+          <ul>
+            <li>P = Design Pressure</li>
+            <li>D = Inside Diameter of the head</li>
+            <li>S = Allowable Stress</li>
+            <li>E = Weld Efficiency</li>
+          </ul>
+        </li>
+
+        <li><b>Torispherical Head (UG-32(d)):</b>  
+          <br><code>t = (0.885 × P × D) / (S × E - 0.1 × P)</code>  
+          Where:  
+          <ul>
+            <li>P = Design Pressure</li>
+            <li>D = Inside Diameter of the head</li>
+            <li>S = Allowable Stress</li>
+            <li>E = Weld Efficiency</li>
+          </ul>
+        </li>
+
+        <li><b>Hemispherical Head (UG-32(e)):</b>  
+          <br><code>t = (P × D) / (2 × S × E - 0.2 × P)</code>  
+          Where:  
+          <ul>
+            <li>P = Design Pressure</li>
+            <li>D = Inside Diameter of the head</li>
+            <li>S = Allowable Stress</li>
+            <li>E = Weld Efficiency</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 🔹 Corrosion Rate & Remaining Life -->
+    <div class="rbi-section">
+      <h2>⏳ Remaining Life & Corrosion Rate Formulas</h2>
+      <ul>
+        <li><b>Short-Term CR:</b> <code>CRst = (t1 - t2) / (Y2 - Y1)</code></li>
+        <li><b>Long-Term CR:</b> <code>CRlt = (t0 - tn) / (Yn - Y0)</code></li>
+        <li><b>Remaining Life:</b> <code>RL = (t_actual - t_min) / CR</code></li>
+        <li><b>Inspection Interval:</b> <code>min(RL / 2, 10 years)</code></li>
+      </ul>
+    </div>
+
+    <!-- 🔹 Toxic Release -->  
+    <div class="rbi-section">  
+      <h2>☣️ Toxic Release Calculation</h2>  
+      <ul>  
+        <li><b>Mass Release:</b>  
+          <br><code>Mass Release (kg) = Leak Rate × Duration</code>
+          <br>Where Leak Rate can be based on component mass flow (kg/hr) or mole % conversion.
+        </li>
+
+        <li><b>Toxic Gas Mass Flow (kg/hr):</b>
+          <ul>
+            <li>By component mass: <code>Mass Flow = Component Mass (kg/hr)</code></li>
+            <li>Toxicity % = <code>(Toxic Mass Flow / Total Mass Flow) × 100</code></li>
+          </ul>
+        </li>
+
+        <li><b>Toxic Gas Mass mol% (kmol/hr):</b>
+          <ul>
+            <li>By mole %: <code>Mass Flow = Mole Fraction × Total Molar Flow × Molecular Weight</code></li>
+            <li>Toxicity % = <code>(Toxic Mass Flow / Total Mass Flow) × 100</code></li>
+          </ul>
+        </li>
+
+        <li><b>Gas Composition Calculations:</b>
+          <ul>
+            <li>Mole Fraction: <code>x_i = Mole % / 100</code></li>
+            <li>Mass Contribution: <code>m_i = x_i × M_i</code>, where M_i = molar mass of gas i</li>
+            <li>Weight %: <code>WT% = (m_i / Σm_i) × 100</code></li>
+          </ul>
+        </li>
+
+        <li>Dispersion and toxic zone radius are calculated using API 581 Toxic tables.</li>
+
+        <li>Inputs Required:  
+          <ul>  
+            <li>Fluid Type</li>  
+            <li>Toxic Category</li>  
+            <li>Release Duration (minutes)</li>  
+            <li>Total Mass Flow or Molar Flow</li>  
+            <li>Component Mass or Mole % (for toxic gas)</li>  
+          </ul>  
+        </li>  
+
+        <li><b>Outputs:</b> Released mass, toxicity %, and affected zone radius.</li>  
+      </ul>  
+    </div>
+
+   
+    <!-- 🔹 Gallery -->
+    <div class="rbi-section">
+      <h2>📸 Screenshot Gallery</h2>
+      <p>Below are example screenshots from the dashboard:</p>
+      <div class="rbi-gallery">
+        <img src="images/dashboard.png" alt="Dashboard Overview" />
+        <img src="images/api571.png" alt="API 571 Damage Mechanism Explorer" />
+        <img src="images/api581.png" alt="API 581 Corrosion Rate Calculator" />
+        <img src="images/fluid.png" alt="Fluid Data Module" />
+        <img src="images/inventory.png" alt="Inventory Calculator" />
+        <img src="images/remaininglife.png" alt="Remaining Life Module" />
+      </div>
+    </div>
+
+    <!-- 🔹 FAQ -->
+    <div class="rbi-section">
+      <h2>❓ Frequently Asked Questions (FAQ)</h2>
+      <ul>
+        <li><b>Q:</b> Why is the graph not updating?  
+            <br /><b>A:</b> Double-check input values and click <b>Calculate</b> again. If the problem persists, refresh the page and try again.</li>
+
+        <li><b>Q:</b> I cannot log in.  
+            <br /><b>A:</b> Log out and re-login. Clearing browser cache may also help. If the issue continues, reset your password from the login page.</li>
+
+        <li><b>Q:</b> Can I customize the help page?  
+            <br /><b>A:</b> Yes, you can edit this HTML file and replace screenshots, instructions, or project-specific notes.</li>
+
+        <li><b>Q:</b> Can I export my results?  
+            <br /><b>A:</b> Yes, the dashboard allows exporting reports in PDF, Excel, or image format depending on the module.</li>
+
+        <li><b>Q:</b> My corrosion rate seems unrealistic.  
+            <br /><b>A:</b> Verify that thickness readings, units, and time intervals are entered correctly.</li>
+
+        <li><b>Q:</b> Can I share my dashboard results with others?  
+            <br /><b>A:</b> Yes, use the <b>Share</b> or <b>Export</b> option. Reports can be downloaded or sent via email.</li>
+
+        <li><b>Q:</b> Does the dashboard support multiple users?  
+            <br /><b>A:</b> Yes, multiple users can log in with separate accounts, but data privacy depends on your organization’s setup.</li>
+
+        <li><b>Q:</b> How do I update fluid property data?  
+            <br /><b>A:</b> Fluid data can be updated through the <b>Admin Panel</b> or by importing a new dataset if enabled by your system admin.</li>
+      </ul>
+    </div>
+
+    <!-- 🔹 Troubleshooting -->
+    <div class="rbi-section">
+      <h2>⚠️ Troubleshooting</h2>
+      <ul>
+        <li><b>Problem:</b> Calculation not running.  
+            <br /><b>Solution:</b> Refresh the page, verify all mandatory inputs, and try again.</li>
+
+        <li><b>Problem:</b> Graphs not displayed.  
+            <br /><b>Solution:</b> Check that all required fields are filled, and ensure your browser supports JavaScript.</li>
+
+        <li><b>Problem:</b> Page not responding or loading slowly.  
+            <br /><b>Solution:</b> Close unused browser tabs, clear cache, or restart your browser.</li>
+
+        <li><b>Problem:</b> Login issues.  
+            <br /><b>Solution:</b> Ensure correct credentials. If still failing, reset your password or contact the administrator.</li>
+
+        <li><b>Problem:</b> Incorrect corrosion rate or remaining life calculation.  
+            <br /><b>Solution:</b> Recheck thickness inputs, units, and corrosion allowance values.</li>
+
+        <li><b>Problem:</b> Export/Download not working.  
+            <br /><b>Solution:</b> Enable pop-ups/downloads in your browser settings and retry.</li>
+
+        <li><b>Problem:</b> Module not opening.  
+            <br /><b>Solution:</b> Check your internet connection, refresh the page, and ensure you have access rights.</li>
+
+        <li><b>Problem:</b> Fluid data not updating.  
+            <br /><b>Solution:</b> Ensure the latest fluid library is loaded. Contact admin if the dataset is locked.</li>
+
+        <li><b>Problem:</b> Session expires too frequently.  
+            <br /><b>Solution:</b> Log in again and enable the "Remember Me" option if available.</li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <footer class="rbi-footer">
+      © 2025 | Created by Avijit Kayet | This help guide is part of the RBI Dashboard Project
+    </footer>
+  </div>
+
+  <!-- ✅ Search / Highlight Logic -->
+  <script>
+    (function () {
+      const input = document.getElementById('searchBox');
+      const filterToggle = document.getElementById('filterToggle');
+      const resultCount = document.getElementById('resultCount');
+      const clearBtn = document.getElementById('clearBtn');
+
+      const sections = Array.from(document.querySelectorAll('.rbi-section'));
+      const searchable = Array.from(document.querySelectorAll('.rbi-section, p, li'));
+
+      // Debounce helper
+      let t;
+      function debounce(fn, wait = 150) {
+        return function (...args) {
+          clearTimeout(t);
+          t = setTimeout(() => fn.apply(this, args), wait);
+        };
+      }
+
+      function clearHighlights() {
+        document.querySelectorAll('span.highlight, mark.search-hit').forEach((el) => {
+          const parent = el.parentNode;
+          if (!parent) return;
+          parent.replaceChild(document.createTextNode(el.textContent), el);
+          parent.normalize();
+        });
+        sections.forEach((s) => s.classList.remove('has-match', 'is-hidden'));
+        resultCount.textContent = '0 matches';
+      }
+
+      function highlightInNode(node, term) {
+        if (!term) return 0;
+        let matches = 0;
+        const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, {
+          acceptNode: (n) => {
+            if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            // Skip text nodes that are inside script/style or inside inputs
+            const p = n.parentElement;
+            if (!p) return NodeFilter.FILTER_REJECT;
+            const tag = p.tagName;
+            if (/(SCRIPT|STYLE|CODE|PRE|NOSCRIPT|TEXTAREA|INPUT|BUTTON|SELECT)/.test(tag)) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            return NodeFilter.FILTER_ACCEPT;
+          },
+        });
+
+        const re = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+
+        nodes.forEach((textNode) => {
+          const val = textNode.nodeValue;
+          if (!re.test(val)) return;
+          matches += (val.match(re) || []).length;
+
+          const frag = document.createDocumentFragment();
+          let lastIndex = 0;
+          val.replace(re, (m, idx) => {
+            // text before match
+            if (idx > lastIndex) frag.appendChild(document.createTextNode(val.slice(lastIndex, idx)));
+            // matched chunk
+            const mark = document.createElement('span');
+            mark.className = 'highlight';
+            mark.textContent = m;
+            frag.appendChild(mark);
+            lastIndex = idx + m.length;
+          });
+          // remaining text
+          if (lastIndex < val.length) frag.appendChild(document.createTextNode(val.slice(lastIndex)));
+
+          textNode.parentNode.replaceChild(frag, textNode);
+        });
+        return matches;
+      }
+
+      const runSearch = debounce(() => {
+        const q = (input.value || '').trim();
+        clearHighlights();
+        if (!q) return;
+
+        let total = 0;
+        // Highlight + mark matched sections
+        sections.forEach((sec) => {
+          const count = highlightInNode(sec, q);
+          if (count > 0) {
+            sec.classList.add('has-match');
+            total += count;
+          }
+        });
+
+        // Also highlight in top intro paragraph (outside sections)
+        document.querySelectorAll('p').forEach((p) => {
+          if (sections.some((s) => s.contains(p))) return; // skip if already processed in a section
+          total += highlightInNode(p, q);
+        });
+
+        // Filter view if toggled
+        if (filterToggle.checked) {
+          sections.forEach((sec) => {
+            if (!sec.classList.contains('has-match')) sec.classList.add('is-hidden');
+          });
+        }
+
+        resultCount.textContent = total + (total === 1 ? ' match' : ' matches');
+
+        // Scroll to first match
+        const firstHit = document.querySelector('.highlight');
+        if (firstHit) firstHit.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 120);
+
+      input.addEventListener('input', runSearch);
+      filterToggle.addEventListener('change', runSearch);
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        filterToggle.checked = false;
+        clearHighlights();
+        // Scroll back to top title
+        document.querySelector('.scroll-target').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        input.focus();
+      });
+    })();
+  </script>
+</body>
+</html>

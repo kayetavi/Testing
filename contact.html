@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact Us</title>
+<style>
+/* ✅ Unique Contact Form Styles */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #f4f6f8, #eaf4ff);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.page-container {
+  max-width: 600px;
+  background: #ffffff;
+  padding: 30px 35px;
+  border-radius: 12px;
+  margin: 60px auto;
+  box-shadow: 0 8px 25px rgba(0, 119, 182, 0.15);
+  border: 1px solid #e3eaf0;
+}
+
+h1 {
+  text-align: center;
+  color: #0077b6;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: 500;
+  margin-top: 10px;
+  display: block;
+  color: #023e8a;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  margin-bottom: 15px;
+  border: 1px solid #ccd6dd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f9fcff;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #0077b6;
+  background: #ffffff;
+  outline: none;
+}
+
+button {
+  background: linear-gradient(135deg, #0077b6, #0096c7);
+  color: white;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #005f8c, #0077b6);
+  transform: translateY(-2px);
+}
+
+/* 💰 Premium Service Box */
+.premium-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  border: 1px solid #ffecb5;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #856404;
+  box-shadow: 0 4px 10px rgba(255, 193, 7, 0.15);
+}
+.premium-box strong {
+  color: #6c4700;
+}
+</style>
+</head>
+<body>
+<div class="page-container">
+  <h1>Contact Us</h1>
+  <form id="contactForm">
+    <label>Name:
+      <input type="text" name="name" required>
+    </label>
+    <label>Email:
+      <input type="email" name="email" required>
+    </label>
+
+    <label>Choose Subscription Plan:</label>
+    <select name="plan" id="plan" required>
+      <option value="">-- Select Plan --</option>
+      <option value="3month">3 Months - ₹4000</option>
+      <option value="6month">6 Months - ₹7000</option>
+      <option value="1year">1 Year - ₹10500</option>
+      <option value="custom">Custom Plan</option>
+    </select>
+
+    <label id="customLabel" style="display:none;">Custom Plan Details:</label>
+    <textarea id="customMessage" name="customMessage" rows="5" style="display:none;"></textarea>
+
+    <button type="submit">Send Message</button>
+  </form>
+
+  <div class="premium-box">
+    <strong>💰 Premium Service:</strong>  
+    If you want a <strong>complete login setup</strong> (user authentication, admin panel, and secured data management),  
+    this feature is available as a <strong>paid service</strong>. Contact us via email for details.
+  </div>
+</div>
+
+<script>
+document.getElementById("plan").addEventListener("change", function() {
+  const customLabel = document.getElementById("customLabel");
+  const customMessage = document.getElementById("customMessage");
+  if (this.value === "custom") {
+    customLabel.style.display = "block";
+    customMessage.style.display = "block";
+    customMessage.required = true;
+  } else {
+    customLabel.style.display = "none";
+    customMessage.style.display = "none";
+    customMessage.required = false;
+  }
+});
+
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const formData = {
+    name: this.name.value,
+    email: this.email.value,
+    plan: this.plan.value,
+    customMessage: this.plan.value === "custom" ? this.customMessage.value : ""
+  };
+
+  try {
+    const res = await fetch("/api/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("✅ Message sent successfully!");
+      this.reset();
+    } else {
+      alert("❌ Failed to send message.");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("❌ Something went wrong.");
+  }
+});
+</script>
+</body>
+</html>

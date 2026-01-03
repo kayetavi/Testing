@@ -1,0 +1,196 @@
+/* ✅ Base Fullscreen Modal (Only for CDU/VDU) */
+#cduVduModal.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* ✅ Modal Content - Fullscreen Layout
+   NOTE: reserve top space for header/buttons so sidebar top items aren't hidden */
+#cduVduModal .modal-content.fullscreen {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  padding-top: 70px; /* adjust 60-90px if your top header/buttons are different height */
+  box-sizing: border-box;
+}
+
+/* ✅ Sidebar (Unique for CDU/VDU) */
+#cduVduModal .sidebar {
+  width: 280px;
+  background-color: #f3f8ff;
+  border-right: 1px solid #bbb;
+  /* keep visual padding but ensure top spacing fits under reserved area */
+  padding: 15px;
+  overflow-y: auto;
+  height: calc(100% - 70px); /* fit inside reserved area */
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+#cduVduModal .sidebar h3 {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #004080;
+  border-bottom: 2px solid #004080;
+  padding-bottom: 5px;
+}
+#cduVduModal .sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#cduVduModal .sidebar li {
+  padding: 8px 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+#cduVduModal .sidebar li:hover {
+  background-color: #d9ecff;
+  color: #004080;
+}
+
+/* ✅ Drawing Panel */
+#cduVduModal .drawing {
+  flex: 1;
+  background-color: #fff;
+  overflow: auto;
+  position: relative;
+  margin: 0;
+  padding: 10px 0 0 0; /* small top offset so svg doesn't sit exactly under toolbar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 70px); /* keep same visible height as sidebar */
+  box-sizing: border-box;
+}
+
+/* ✅ SVG / Image Full Fit */
+#cduVduModal #cduvdu-svgContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#cduVduModal #cduvdu-svgContainer img,
+#cduVduModal #cduvdu-svgContainer svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+/* ✅ Close Button */
+#cduVduModal .close-btn {
+  position: absolute;
+  top: 50px;   /* 👈 thoda niche kar diya (pehle 15px tha) */
+  right: 20px;
+  font-size: 30px;
+  color: #004080;
+  cursor: pointer;
+  z-index: 10000;
+  background: #f0f7ff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease-in-out;
+}
+#cduVduModal .close-btn:hover {
+  background: #004080;
+  color: #fff;
+}
+
+/* ✅ Show Details Button */
+#cduVduModal #cduvdu-showDetailsMsg {
+   position: absolute;
+  top: 50px;
+  left: 10px;
+  font-size: 18px;
+  color: red;
+  font-weight: bold;
+  background-color: #fff4f4;
+  padding: 10px 15px;
+  border: 2px dashed red;
+  cursor: pointer;
+  animation: blinkShowDetails 1s infinite;
+  z-index: 10000;
+  border-radius: 4px;
+}
+@keyframes cduvduBlinkShowDetails {
+  0% { opacity: 1; }
+  50% { opacity: 0.1; }
+  100% { opacity: 1; }
+}
+
+/* ✅ CDU/VDU Details Popup */
+#cduvdu-detailsModal {
+  position: fixed;
+  z-index: 100000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  border: 2px solid #004080;
+  border-radius: 10px;
+  padding: 20px 25px;
+  width: 90vw;
+  max-width: 1000px;
+  max-height: 85vh;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+  display: none;
+  animation: cduvduPopupFade 0.3s ease-in-out;
+}
+
+/* ✅ CDU/VDU Details Content */
+#cduvdu-detailsModal #cduvdu-detailsContent {
+  max-height: calc(85vh - 70px);
+  overflow-y: auto;
+  padding: 15px 20px;
+  background: #fff;
+  border-radius: 5px;
+  font-size: 15px;
+  line-height: 1.6;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* ✅ Close Button (Details Popup) */
+#cduvdu-detailsModal .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #004080;
+  cursor: pointer;
+  background: #f0f7ff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+#cduvdu-detailsModal .close-btn:hover {
+  background: #004080;
+  color: #fff;
+}
+
+@keyframes cduvduPopupFade {
+  0% { opacity: 0; transform: translate(-50%, -45%); }
+  100% { opacity: 1; transform: translate(-50%, -50%); }
+}

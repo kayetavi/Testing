@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact - API 571 Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .page-container {
+      width: 95%;
+      max-width: 1000px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #0077b6;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #023e8a;
+      margin-top: 25px;
+      border-left: 5px solid #0096c7;
+      padding-left: 10px;
+    }
+
+    p {
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      background: #e6f0ff;
+      margin: 6px 0;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    ul li::before {
+      content: "✔";
+      color: #0077b6;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    form {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #0077b6;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #023e8a;
+    }
+
+    .premium-box {
+      background: #fff3cd;
+      color: #856404;
+      border-left: 5px solid #ffca28;
+      padding: 15px;
+      margin-top: 25px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    a.back-link {
+      display: block;
+      margin: 30px auto 0 auto;
+      text-decoration: none;
+      color: #fff;
+      background: #0077b6;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      text-align: center;
+      transition: 0.3s;
+      max-width: 250px;
+    }
+
+    a.back-link:hover {
+      background: #023e8a;
+    }
+
+    /* ✅ Mobile-friendly */
+    @media (max-width: 768px) {
+      ul li {
+        font-size: 1.1rem;
+        padding: 12px;
+      }
+
+      a.back-link {
+        width: 100%;
+        max-width: 100%;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <h1>Contact Us</h1>
+    <p>
+      We'd love to hear from you! Whether you have feedback, feature requests, collaboration ideas, or questions — feel free to get in touch.
+    </p>
+
+    <h2>📫 Contact Information</h2>
+    <ul>
+      <li><strong>Name:</strong> Avijit Kayet</li>
+      <li><strong>Email:</strong> <a href="mailto:avijitkayet97@gmail.com">avijitkayet97@gmail.com</a></li>
+    </ul>
+
+    <h2>💬 Send Us a Message</h2>
+    <form action="mailto:avijitkayet97@gmail.com" method="post" enctype="text/plain">
+      <label>Name:
+        <input type="text" name="name" required>
+      </label>
+      <label>Email:
+        <input type="email" name="email" required>
+      </label>
+      <label>Message:
+        <textarea name="message" rows="5" required></textarea>
+      </label>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <div class="premium-box">
+      <strong>💰 Premium Service:</strong>  
+      If you want a <strong>complete login setup</strong> (user authentication, admin panel, and secured data management),  
+      this feature is available as a <strong>paid service</strong>. Contact us via email for details.
+    </div>
+
+    <a href="index.html" class="back-link">⬅ Back to Dashboard</a>
+  </div>
+</body>
+</html>
