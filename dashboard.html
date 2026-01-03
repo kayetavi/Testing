@@ -103,11 +103,16 @@
   <script>
   const user = localStorage.getItem("loggedInUser");
 
-  // 🔐 Redirect if NOT logged in
   if (!user) {
     window.location.href = "index.html";
   }
-  </script>
+
+  function logout() {
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("sessionId");
+    window.location.href = "index.html";
+  }
+</script>
 
 <div class="top-bar">
   <div id="welcome">Welcome to API 571 Damage Mechanism Dashboard</div>
