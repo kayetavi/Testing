@@ -1,4 +1,3 @@
-<script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 /* ===========================
@@ -10,39 +9,33 @@ const supabase = createClient(
 );
 
 /* ===========================
-   🔐 SESSION ID GENERATOR
+   🔐 SESSION ID
 =========================== */
 function generateSessionId() {
   return Math.random().toString(36).substring(2);
 }
 
 const deviceId = navigator.userAgent;
-let sessionId = localStorage.getItem("sessionId") || "";
 
 /* ===========================
    🔐 LOGIN FUNCTION
 =========================== */
-window.login = async function () {
-  const recaptchaResponse = grecaptcha.getResponse();
+async function login() {
+  const email = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
   const error = document.getElementById("errorMsg");
+  const loginBtn = document.getElementById("loginBtn");
 
-  // ✅ CAPTCHA check
-  if (!recaptchaResponse) {
-    error.textContent = "⚠️ Please complete the reCAPTCHA.";
+  if (!email || !password) {
+    error.textContent = "⚠️ Email and password required";
     return;
   }
-
-  const email = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-  const loginBtn = document.getElementById("loginBtn");
 
   loginBtn.classList.add("loading");
   error.textContent = "";
 
   try {
-    /* ===========================
-       🔐 SUPABASE AUTH LOGIN
-    =========================== */
+    // 🔐 Supabase Auth
     const { data, error: authError } =
       await supabase.auth.signInWithPassword({
         email,
@@ -53,11 +46,9 @@ window.login = async function () {
 
     const user = data.user;
     const now = Date.now();
-    sessionId = generateSessionId();
+    const sessionId = generateSessionId();
 
-    /* ===========================
-       🔍 CHECK EXISTING SESSION
-    =========================== */
+    // 🔍 Check existing session
     const { data: existingSession } = await supabase
       .from("user_sessions")
       .select("*")
@@ -65,28 +56,22 @@ window.login = async function () {
       .single();
 
     if (existingSession) {
-      const lastActive = existingSession.last_active || 0;
-      const isExpired = now - lastActive > 60000; // ⏱ 1 minute
+      const expired = now - existingSession.last_active > 60000;
 
-      if (!isExpired && existingSession.session_id !== sessionId) {
+      if (!expired) {
         error.textContent =
-          "⚠️ You're already logged in on another device.";
+          "⚠️ Already logged in on another device";
         loginBtn.classList.remove("loading");
         return;
       }
 
-      // 🧹 Delete expired session
-      if (isExpired) {
-        await supabase
-          .from("user_sessions")
-          .delete()
-          .eq("user_id", user.id);
-      }
+      await supabase
+        .from("user_sessions")
+        .delete()
+        .eq("user_id", user.id);
     }
 
-    /* ===========================
-       ✅ SAVE NEW SESSION
-    =========================== */
+    // ✅ Save new session
     await supabase.from("user_sessions").upsert({
       user_id: user.id,
       session_id: sessionId,
@@ -101,10 +86,15 @@ window.login = async function () {
 
   } catch (err) {
     console.error(err.message);
-    error.textContent = "❌ Invalid username or password";
+    error.textContent = err.message;
   } finally {
     loginBtn.classList.remove("loading");
-    grecaptcha.reset();
   }
-};
-</script>
+}
+
+/* ===========================
+   🔘 BUTTON BINDING
+=========================== */
+document
+  .getElementById("loginBtn")
+  .addEventListener("click", login);
