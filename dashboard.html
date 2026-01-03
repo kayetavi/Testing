@@ -101,18 +101,13 @@
 <!-- ✅ Keep body tag simple -->
 <body>
   <script>
-    const user = localStorage.getItem("loggedInUser");
+  const user = localStorage.getItem("loggedInUser");
 
-    // ✅ Redirect to login page if not logged in
-    if (!user && !window.location.href.includes("lndex.html")) {
-      window.location.href = "lndex.html";
-    }
-
-    // ✅ Add background image only on login.html
-    if (window.location.href.includes("login.html")) {
-      document.body.classList.add("login-background");
-    }
-     </script>
+  // 🔐 Redirect if NOT logged in
+  if (!user) {
+    window.location.href = "index.html";
+  }
+  </script>
 
 <div class="top-bar">
   <div id="welcome">Welcome to API 571 Damage Mechanism Dashboard</div>
@@ -2676,8 +2671,7 @@
 
   <script src="js/logic.js"></script>
 
-  <script type="module" src="js/firebase-auth.js"></script>
-    
+  
 
 <!-- Chatbot Container -->
 <div id="chatbot-widget">
