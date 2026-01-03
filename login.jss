@@ -1,23 +1,17 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-// ✅ Firebase Config
-const firebaseConfig = {
-  apiKey: "AIzaSyAJFEQbD9Q-hixTAWuwRgE3M7yfm_InUZM",
-  authDomain: "loginapp-feb72.firebaseapp.com",
-  projectId: "loginapp-feb72",
-  storageBucket: "loginapp-feb72.appspot.com",
-  messagingSenderId: "743648198302",
-  appId: "1:743648198302:web:745564ac4b714d81f5458f",
-  measurementId: "G-T7J1626T53"
-};
+/* ===========================
+   ✅ SUPABASE CONFIG
+=========================== */
+const supabase = createClient(
+  "https://apmmvovefgywogzcnvmr.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwbW12b3ZlZmd5d29nemNudm1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjczNDA4ODQsImV4cCI6MjA4MjkxNjg4NH0.B0KRW0-OoV_11E_ism4_3xwusP85syna3UMy3kZy3gU"
+);
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-// 🔐 Generate Unique Session ID
+/* ===========================
+   🔐 SESSION ID GENERATOR
+=========================== */
 function generateSessionId() {
   return Math.random().toString(36).substring(2);
 }
@@ -25,11 +19,14 @@ function generateSessionId() {
 const deviceId = navigator.userAgent;
 let sessionId = localStorage.getItem("sessionId") || "";
 
+/* ===========================
+   🔐 LOGIN FUNCTION
+=========================== */
 window.login = async function () {
-  const recaptchaResponse = grecaptcha.getResponse(); // ✅ reCAPTCHA token
+  const recaptchaResponse = grecaptcha.getResponse();
   const error = document.getElementById("errorMsg");
 
-  // ✅ Step: Verify if CAPTCHA is completed
+  // ✅ CAPTCHA check
   if (!recaptchaResponse) {
     error.textContent = "⚠️ Please complete the reCAPTCHA.";
     return;
@@ -43,46 +40,71 @@ window.login = async function () {
   error.textContent = "";
 
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    const userDocRef = doc(db, "userSessions", user.uid);
-    const userSessionDoc = await getDoc(userDocRef);
+    /* ===========================
+       🔐 SUPABASE AUTH LOGIN
+    =========================== */
+    const { data, error: authError } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    // Generate a new session ID for this login
+    if (authError) throw authError;
+
+    const user = data.user;
+    const now = Date.now();
     sessionId = generateSessionId();
 
-    const now = Date.now();
-    if (userSessionDoc.exists()) {
-      const existingSession = userSessionDoc.data();
-      const lastActive = existingSession.timestamp || 0;
-      const isExpired = now - lastActive > 60000; // 1 min timeout
+    /* ===========================
+       🔍 CHECK EXISTING SESSION
+    =========================== */
+    const { data: existingSession } = await supabase
+      .from("user_sessions")
+      .select("*")
+      .eq("user_id", user.id)
+      .single();
 
-      if (!isExpired && existingSession.sessionId !== sessionId) {
-        error.textContent = "⚠️ You're already logged in on another device.";
+    if (existingSession) {
+      const lastActive = existingSession.last_active || 0;
+      const isExpired = now - lastActive > 60000; // ⏱ 1 minute
+
+      if (!isExpired && existingSession.session_id !== sessionId) {
+        error.textContent =
+          "⚠️ You're already logged in on another device.";
         loginBtn.classList.remove("loading");
         return;
       }
 
-      // If expired, delete old session
+      // 🧹 Delete expired session
       if (isExpired) {
-        await deleteDoc(userDocRef);
+        await supabase
+          .from("user_sessions")
+          .delete()
+          .eq("user_id", user.id);
       }
     }
 
-    // ✅ Save new session
-    await setDoc(userDocRef, {
-      sessionId: sessionId,
-      timestamp: now
+    /* ===========================
+       ✅ SAVE NEW SESSION
+    =========================== */
+    await supabase.from("user_sessions").upsert({
+      user_id: user.id,
+      session_id: sessionId,
+      device_id: deviceId,
+      last_active: now,
     });
 
     localStorage.setItem("sessionId", sessionId);
     localStorage.setItem("loggedInUser", email);
+
     window.location.href = "dashboard.html";
+
   } catch (err) {
     console.error(err.message);
     error.textContent = "❌ Invalid username or password";
   } finally {
     loginBtn.classList.remove("loading");
-    grecaptcha.reset(); // ✅ Reset CAPTCHA after each login attempt
+    grecaptcha.reset();
   }
 };
+</script>
