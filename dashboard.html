@@ -112,7 +112,7 @@ const supabase = createClient(
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  // 1️⃣ SESSION CHECK
+  // 🔐 Check session
   const { data: sessionData } = await supabase.auth.getSession();
 
   if (!sessionData.session) {
@@ -122,21 +122,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const userId = sessionData.session.user.id;
 
-  // 2️⃣ FETCH USER ROLE
-  const { data: roleRow, error } = await supabase
-    .from("user_roles")
+  // 🔍 Get role
+  const { data: profile, error } = await supabase
+    .from("profiles")
     .select("role")
-    .eq("user_id", userId)
+    .eq("id", userId)
     .single();
 
-  if (error || !roleRow) {
-    alert("User role not found");
+  if (error || !profile || !profile.role) {
+    console.warn("Role missing");
     return;
   }
 
-  // 3️⃣ APPLY ROLE TO UI
-  applyRoleUI(roleRow.role);
+  console.log("Logged in role:", profile.role);
 
+  // ✅ APPLY ROLE AFTER EVERYTHING LOADED
+  applyRoleUI(profile.role);
 });
 </script>
 
