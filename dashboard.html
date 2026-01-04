@@ -102,15 +102,16 @@
 <body>
   <script>
   const user = localStorage.getItem("loggedInUser");
+  const sessionId = localStorage.getItem("sessionId");
 
-  if (!user) {
-    window.location.href = "index.html";
+  if (!user || !sessionId) {
+    window.location.replace("index.html");
   }
 
   function logout() {
     localStorage.removeItem("loggedInUser");
     localStorage.removeItem("sessionId");
-    window.location.href = "index.html";
+    window.location.replace("index.html");
   }
 </script>
 
