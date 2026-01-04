@@ -1,19 +1,18 @@
 
-// ✅ USERNAME & WELCOME
-const username = localStorage.getItem("usernameUpper");
+const userEmail = localStorage.getItem("loggedInUser");
 const welcomeDiv = document.getElementById("welcome");
 const scrollText = document.getElementById("scrollText");
 
-if (username) {
-  welcomeDiv.innerHTML = `Welcome <span class="username-style">${username}</span>`;
-  scrollText.innerText = `👋 Hello ${username}! Welcome to the Risk based Inspection Tools Dashboard. Integrity is doing the right thing even when no one is watching - C.S Levis -`;
-} else {
-  window.location.href = "index.html";
+if (userEmail) {
+  const name = userEmail.split("@")[0]; // email se naam
+  welcomeDiv.innerHTML = `Welcome <span class="username-style">${name}</span>`;
+  scrollText.innerText =
+    `👋 Hello ${name}! Welcome to the Risk Based Inspection Tools Dashboard.`;
 }
 
 // 🚪 LOGOUT FUNCTION
 function logout() {
-  localStorage.removeItem("loggedInUser");
+  localStorage.clear();   // sab session clear
   window.location.href = "index.html";
 }
 
@@ -1952,6 +1951,7 @@ const corrosionTableASW = {
   79: { "4.75": 0.13, "5.25": 0.08, "5.75": 0.05, "6.25": 0.04, "6.75": 0.02 },
   93: { "4.75": 0.18, "5.25": 0.10, "5.75": 0.08, "6.25": 0.05, "6.75": 0.03 }
 };
+
 
 
 
