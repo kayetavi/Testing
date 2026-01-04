@@ -111,11 +111,32 @@ const supabase = createClient(
 );
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const { data } = await supabase.auth.getSession();
 
-  if (!data.session) {
+  // 1️⃣ SESSION CHECK
+  const { data: sessionData } = await supabase.auth.getSession();
+
+  if (!sessionData.session) {
     window.location.href = "index.html";
+    return;
   }
+
+  const userId = sessionData.session.user.id;
+
+  // 2️⃣ FETCH USER ROLE
+  const { data: roleRow, error } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .single();
+
+  if (error || !roleRow) {
+    alert("User role not found");
+    return;
+  }
+
+  // 3️⃣ APPLY ROLE TO UI
+  applyRoleUI(roleRow.role);
+
 });
 </script>
 
