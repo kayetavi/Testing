@@ -101,17 +101,24 @@
 <!-- ✅ Keep body tag simple -->
 <body>
   <script>
-  const user = localStorage.getItem("loggedInUser");
-  const sessionId = localStorage.getItem("sessionId");
+  document.addEventListener("DOMContentLoaded", () => {
+    // ⏳ Small delay to allow storage to be ready
+    setTimeout(() => {
+      const user = localStorage.getItem("loggedInUser");
+      const sessionId = localStorage.getItem("sessionId");
 
-  if (!user || !sessionId) {
-    window.location.replace("index.html");
-  }
+      console.log("AUTH CHECK:", user, sessionId);
+
+      if (!user || !sessionId) {
+        window.location.href = "index.html";
+      }
+    }, 300);
+  });
 
   function logout() {
     localStorage.removeItem("loggedInUser");
     localStorage.removeItem("sessionId");
-    window.location.replace("index.html");
+    window.location.href = "index.html";
   }
 </script>
 
