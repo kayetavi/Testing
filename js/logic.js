@@ -60,33 +60,74 @@ const showQPOF_calculatorTab = () => showTabById("QPOF_calculatorTab");
 const showCrackingMechanismTab = () => showTabById("crackingMechanismTab");
 const showbkStressTab = () => showTabById("bkStressTab");
 
+// ================= ROLE BASED UI =================
+function applyRoleUI(role) {
+  document.querySelectorAll("[data-role]").forEach(el => {
+    el.style.display = "none";
+
+    const allowedRoles = el.dataset.role
+      .split(",")
+      .map(r => r.trim());
+
+    if (allowedRoles.includes(role)) {
+      el.style.display = "block";
+    }
+  });
+}
+
 // ================= CATEGORY INJECTIONS =================
 function injectAPI581Category() {
   const categoryList = document.getElementById("categoryList");
   const li = document.createElement("li");
 
   li.innerHTML = `
-    <span class="category" onclick="toggleCategory(this)">Risk-Based Inspection Methodology</span>
-    <ul class="mechanisms" style="display:none;">
-      <li><a href="#" onclick="hideAllMainPanels(); showCriteriaTab()">Criteria of Finding Damage Mechanism</a></li>
-      <li><a href="#" onclick="hideAllMainPanels(); showCorrosionFullTab()">Corrosion Rate Estimator</a></li>
-      <li><a href="#" onclick="hideAllMainPanels(); showFluidSelectorTab()">Representative Fluid</a></li>
-      <li><a href="#" onclick="hideAllMainPanels(); showInventoryTab()">Inventory Calculator</a></li>
-      <li><a href="#" onclick="hideAllMainPanels(); showINSPECTIONCONFIDENCETab()">Inspection Confidence</a></li>
-      <li><a href="#" onclick="hideAllMainPanels(); showTOXIC_CALCULATIONTab()">Toxic % Calculation</a></li>
+    <span class="category" onclick="toggleCategory(this)">
+      Risk-Based Inspection Methodology
+    </span>
 
-      <li>
+    <ul class="mechanisms" style="display:none;">
+      <li data-role="admin,engineer,user">
+        <a href="#" onclick="hideAllMainPanels(); showCriteriaTab()">Criteria of Finding Damage Mechanism</a>
+      </li>
+
+      <li data-role="admin,engineer">
+        <a href="#" onclick="hideAllMainPanels(); showCorrosionFullTab()">Corrosion Rate Estimator</a>
+      </li>
+
+      <li data-role="admin,engineer,user">
+        <a href="#" onclick="hideAllMainPanels(); showFluidSelectorTab()">Representative Fluid</a>
+      </li>
+
+      <li data-role="admin,engineer,user">
+        <a href="#" onclick="hideAllMainPanels(); showInventoryTab()">Inventory Calculator</a>
+      </li>
+
+      <li data-role="admin,engineer">
+        <a href="#" onclick="hideAllMainPanels(); showINSPECTIONCONFIDENCETab()">Inspection Confidence</a>
+      </li>
+
+      <li data-role="admin">
+        <a href="#" onclick="hideAllMainPanels(); showTOXIC_CALCULATIONTab()">Toxic % Calculation</a>
+      </li>
+
+      <li data-role="admin,engineer">
         <span class="subcategory" onclick="toggleCategory(this)">Quantitative</span>
         <ul class="mechanisms" style="display:none;">
-          <li><a href="#" onclick="hideAllMainPanels(); showcof_calculatorTab()">Risk Calculator COF</a></li>
-          <li><a href="#" onclick="hideAllMainPanels(); showQPOF_calculatorTab()">Risk Calculator POF</a></li>
+          <li data-role="admin,engineer">
+            <a href="#" onclick="hideAllMainPanels(); showcof_calculatorTab()">Risk Calculator COF</a>
+          </li>
+          <li data-role="admin,engineer">
+            <a href="#" onclick="hideAllMainPanels(); showQPOF_calculatorTab()">Risk Calculator POF</a>
+          </li>
         </ul>
       </li>
 
-      <li>
+      <li data-role="admin,engineer">
         <span class="subcategory" onclick="toggleCategory(this)">Semi Quantitative</span>
         <ul class="mechanisms" style="display:none;">
-          <li><a href="#" onclick="hideAllMainPanels(); showCORROSION_CALCULATIONTab()">Risk Calculator</a></li>
+          <li data-role="admin,engineer">
+            <a href="#" onclick="hideAllMainPanels(); showCORROSION_CALCULATIONTab()">Risk Calculator</a>
+          </li>
         </ul>
       </li>
     </ul>
@@ -100,9 +141,13 @@ function injectAPI570Category() {
   const li = document.createElement("li");
 
   li.innerHTML = `
-    <span class="category" onclick="toggleCategory(this)">Thickness Data Evaluation & Analysis</span>
+    <span class="category" onclick="toggleCategory(this)">
+      Thickness Data Evaluation & Analysis
+    </span>
     <ul class="mechanisms" style="display:none;">
-      <li><a href="#" onclick="hideAllMainPanels(); showRemainingLifeTab()">Statistical Analysis</a></li>
+      <li data-role="admin,engineer">
+        <a href="#" onclick="hideAllMainPanels(); showRemainingLifeTab()">Statistical Analysis</a>
+      </li>
     </ul>
   `;
 
@@ -114,11 +159,19 @@ function injectDesignThicknessCalculatorCategory() {
   const li = document.createElement("li");
 
   li.innerHTML = `
-    <span class="category" onclick="toggleCategory(this)">Design Thickness Calculator</span>
+    <span class="category" onclick="toggleCategory(this)">
+      Design Thickness Calculator
+    </span>
     <ul class="mechanisms" style="display:none;">
-      <li><a href="#" onclick="showASMEB31_3Tab()">Process Piping</a></li>
-      <li><a href="#" onclick="showASMESECTIONVIIIDIV1Tab()">Pressure Vessel</a></li>
-      <li><a href="#" onclick="showpipeThicknessTab()">Piping Thickness Chart</a></li>
+      <li data-role="admin,engineer">
+        <a href="#" onclick="showASMEB31_3Tab()">Process Piping</a>
+      </li>
+      <li data-role="admin,engineer">
+        <a href="#" onclick="showASMESECTIONVIIIDIV1Tab()">Pressure Vessel</a>
+      </li>
+      <li data-role="admin,engineer,user">
+        <a href="#" onclick="showpipeThicknessTab()">Piping Thickness Chart</a>
+      </li>
     </ul>
   `;
 
@@ -130,9 +183,13 @@ function injectCrackingMechanismCategory() {
   const li = document.createElement("li");
 
   li.innerHTML = `
-    <span class="category" onclick="toggleCategory(this)">Cracking Mechanism Finder</span>
+    <span class="category" onclick="toggleCategory(this)">
+      Cracking Mechanism Finder
+    </span>
     <ul class="mechanisms" style="display:none;">
-      <li><a href="#" onclick="showCrackingMechanismTab()">Open Finder</a></li>
+      <li data-role="admin,engineer,user">
+        <a href="#" onclick="showCrackingMechanismTab()">Open Finder</a>
+      </li>
     </ul>
   `;
 
@@ -144,9 +201,13 @@ function injectStressMaterialDataCategory() {
   const li = document.createElement("li");
 
   li.innerHTML = `
-    <span class="category" onclick="toggleCategory(this)">Stress & Material Data</span>
+    <span class="category" onclick="toggleCategory(this)">
+      Stress & Material Data
+    </span>
     <ul class="mechanisms" style="display:none;">
-      <li><a href="#" onclick="showbkStressTab()">Stress Value</a></li>
+      <li data-role="admin,engineer">
+        <a href="#" onclick="showbkStressTab()">Stress Value</a>
+      </li>
     </ul>
   `;
 
@@ -158,12 +219,14 @@ function injectProcessFlowDiagramsCategory() {
   const li = document.createElement("li");
 
   li.innerHTML = `
-    <span class="category" onclick="toggleCategory(this)">Corrosion Diagrams</span>
+    <span class="category" onclick="toggleCategory(this)">
+      Corrosion Diagrams
+    </span>
     <ul class="mechanisms" style="display:none;">
-      <li><a href="#" onclick="showPROCESSFLOWDIAGRAMSTab()">HYDROPROCESSING</a></li>
-      <li><a href="#" onclick="showCDUVDUTab()">CDU / VDU</a></li>
-      <li><a href="#" onclick="showMSPTab()">MSP</a></li>
-      <li><a href="#" onclick="showH2UTab()">H2U</a></li>
+      <li data-role="admin,engineer,user"><a href="#" onclick="showPROCESSFLOWDIAGRAMSTab()">HYDROPROCESSING</a></li>
+      <li data-role="admin,engineer,user"><a href="#" onclick="showCDUVDUTab()">CDU / VDU</a></li>
+      <li data-role="admin,engineer,user"><a href="#" onclick="showMSPTab()">MSP</a></li>
+      <li data-role="admin,engineer,user"><a href="#" onclick="showH2UTab()">H2U</a></li>
     </ul>
   `;
 
@@ -179,4 +242,7 @@ window.addEventListener("DOMContentLoaded", () => {
   injectProcessFlowDiagramsCategory();
   injectCrackingMechanismCategory();
   injectStressMaterialDataCategory();
+
+  // 🔹 TEMP ROLE (change later from Supabase)
+  applyRoleUI("engineer");
 });
