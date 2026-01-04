@@ -27,3 +27,19 @@ export async function getUserRole() {
 
   applyRoleUI(data.role);
 }
+// ===============================
+// ROLE BASED UI CONTROL
+// ===============================
+function applyRoleUI(role) {
+
+  // HIDE ALL ROLE-BASED ELEMENTS
+  document.querySelectorAll("[data-role]").forEach(el => {
+    el.style.display = "none";
+  });
+
+  // SHOW ELEMENTS ALLOWED FOR THIS ROLE
+  document.querySelectorAll(`[data-role*="${role}"]`).forEach(el => {
+    el.style.display = "block";
+  });
+
+}
